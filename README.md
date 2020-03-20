@@ -1,6 +1,6 @@
 # Blech32.js
 
-[![build status](https://secure.travis-ci.com/vulpemventures/blech32.png)](http://travis-ci.com/vulpemventures/blech32)
+[![build status](https://api.travis-ci.com/vulpemventures/blech32.png)](http://travis-ci.com/vulpemventures/blech32)
 
 A Elements extended [BIP173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) compatible Blech32 encoding/decoding library.
 

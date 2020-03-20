@@ -23,7 +23,22 @@ $ source path/to/emsdk_env.sh
 $ emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s EXTRA_EXPORTED_RUNTIME_METHODS='["ccall", "cwrap", "getValue", "setValue", "allocate", "intArrayFromString", "ALLOC_NORMAL"]' -s EXPORT_ALL=1 -s LINKABLE=1 -s NO_EXIT_RUNTIME=1
 ```
 
-Test:
+Build (with Docker)
+
+```sh
+$ npm install
+$ git submodule update --init
+$ docker build -t secp256k1-js .
+$ npm run compile
+```
+
+## Bundle
+
+```sh
+$ browserify lib/index.js --standalone blech32 > bundle.js
+```
+
+## Test
 
 ```sh
 $ npm run test

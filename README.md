@@ -32,7 +32,13 @@ $ docker build -t secp256k1-js .
 $ npm run compile
 ```
 
-Test:
+## Bundle
+
+```sh
+$ browserify lib/index.js --standalone blech32 > bundle.js
+```
+
+## Test
 
 ```sh
 $ npm run test

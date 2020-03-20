@@ -1,6 +1,6 @@
 # Blech32.js
 
-[![build status](https://secure.travis-ci.org/vulpemventures/blech32.png)](http://travis-ci.org/vulpemventures/blech32)
+[![build status](https://secure.travis-ci.com/vulpemventures/blech32.png)](http://travis-ci.com/vulpemventures/blech32)
 
 A Elements extended [BIP173](https://github.com/bitcoin/bips/blob/master/bip-0173.mediawiki) compatible Blech32 encoding/decoding library.
 
@@ -26,7 +26,6 @@ $ emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s EXTRA_EXPORTED_RUNTIME_M
 Build (with Docker)
 
 ```sh
-$ npm install
 $ git submodule update --init
 $ docker build -t secp256k1-js .
 $ npm run compile
@@ -38,7 +37,7 @@ $ npm run compile
 $ browserify lib/index.js --standalone blech32 > bundle.js
 ```
 
-## Test
+## Test
 
 ```sh
 $ npm run test

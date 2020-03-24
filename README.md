@@ -16,7 +16,7 @@ Install dependencies:
 $ npm install
 ```
 
-Build (with *Emscripten* installed via `emsdk`):
+Build (with _Emscripten_ installed via `emsdk`):
 
 ```sh
 $ source path/to/emsdk_env.sh
@@ -27,7 +27,7 @@ Build (with Docker)
 
 ```sh
 $ git submodule update --init
-$ docker build -t secp256k1-js .
+$ docker build -t blech32-js .
 $ npm run compile
 ```
 
@@ -45,4 +45,4 @@ $ npm run test
 
 ## Credits
 
-* [ElementsProject](https://github.com/ElementsProject/libwally-core/blob/master/src/blech32.c) for the reference C implementation of blech32.
+- [ElementsProject](https://github.com/ElementsProject/libwally-core/blob/master/src/blech32.c) for the reference C implementation of blech32.

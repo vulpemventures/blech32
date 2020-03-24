@@ -16,11 +16,14 @@
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
   "scripts": {
-    "test": "npx mocha tests/**/*.js",
+    "compile-node": "docker run -e DEBUG=1 --name=emcc -t blech32-js emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s MODULARIZE=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\", \"cwrap\", \"getValue\", \"setValue\", \"allocate\", \"intArrayFromString\", \"ALLOC_NORMAL\"]' -s EXPORT_ALL=1 -s LINKABLE=1 -s NO_EXIT_RUNTIME=1 -s ENVIRONMENT='node' --memory-init-file 0 && docker cp emcc:/src/src/blech32.js ./src/blech32.js && docker rm emcc",
+    "compile-web": "docker run -e DEBUG=1 --name=emcc -t blech32-js emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s MODULARIZE=1 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\", \"cwrap\", \"getValue\", \"setValue\", \"allocate\", \"intArrayFromString\", \"ALLOC_NORMAL\"]' -s EXPORT_ALL=1 -s LINKABLE=1 -s NO_EXIT_RUNTIME=1 -s ENVIRONMENT='web' --memory-init-file 0 && docker cp emcc:/src/src/blech32.js ./src/blech32.web.js && docker rm emcc",
     "lint": "npx eslint lib tests",
-    "prettier": "prettier '{lib,tests}/**/*.js' --ignore-path ./.prettierignore -- --write > /dev/null 2>&1",
-    "compile-web": "docker run -e DEBUG=1 --name=emcc -t secp256k1-js emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\", \"cwrap\", \"getValue\", \"setValue\", \"allocate\", \"intArrayFromString\", \"ALLOC_NORMAL\"]' -s EXPORT_ALL=1 -s LINKABLE=1 -s NO_EXIT_RUNTIME=1 -s ENVIRONMENT='web' --memory-init-file 0 && docker cp emcc:/src/src/blech32.js ./src/blech32.web.js && docker rm emcc",
-    "compile-node": "docker run -e DEBUG=1 --name=emcc -t secp256k1-js emcc src/blech32.c -o src/blech32.js -O3 -s WASM=0 -s EXTRA_EXPORTED_RUNTIME_METHODS='[\"ccall\", \"cwrap\", \"getValue\", \"setValue\", \"allocate\", \"intArrayFromString\", \"ALLOC_NORMAL\"]' -s EXPORT_ALL=1 -s LINKABLE=1 -s NO_EXIT_RUNTIME=1 -s ENVIRONMENT='node' --memory-init-file 0 && docker cp emcc:/src/src/blech32.js ./src/blech32.js && docker rm emcc"
+    "prettier": "npx prettier '{lib,tests}/**/*.js' --ignore-path ./.prettierignore",
+    "format": "npm run prettier  -- --write",
+    "format:ci": "npm run prettier -- --check",
+    "test": "npm run format:ci && npm run lint && npm run unit",
+    "unit": "npx mocha tests/**/*.js"
   },
   "browser": {
     "./src/blech32.js": "./src/blech32.web.js"
@@ -31,7 +34,7 @@
     "assert": "^2.0.0",
     "eslint": "^6.8.0",
     "mocha": "^7.1.1",
-    "prettier": "^1.19.1"
+    "prettier": "^2.0.2"
   },
   "repository": {
     "url": "http://github.com/vulpemventures/blech32",

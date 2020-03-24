@@ -160,9 +160,10 @@ int addr_encode(char *output, size_t *output_len, const char *hrp, int witver, c
     int ret = encode(output, hrp, data, datalen, MAXLEN);
     size_t len = strlen(output);
     memcpy(output_len, &len, 4);
+    clear_2(data, sizeof(data), NULL, 0);
     return ret;
 fail:
-    clear_2(data, sizeof(data), (void *)witprog, witprog_len);
+    clear_2(data, sizeof(data), NULL, 0);
     return 0;
 }
 
@@ -179,6 +180,7 @@ int addr_decode(int *witver, uint8_t *witdata, size_t *witdata_len, const char *
     if (*witdata_len < 2 || *witdata_len > 65) goto fail;
     if (data[0] == 0 && *witdata_len != 53 && *witdata_len != 65) goto fail;
     *witver = data[0];
+    clear_2(data, sizeof(data), hrp_actual, sizeof(hrp_actual));
     return 1;
 fail:
     clear_2(data, sizeof(data), hrp_actual, sizeof(hrp_actual));

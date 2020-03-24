@@ -28,9 +28,10 @@ static const int8_t charset_rev[128] = {
 
 #define MAXLEN ((size_t) 1000)
 
-static void clear_2(void *p, size_t len, void *p2, size_t len2) {
+static int clear(void *p, size_t len, void *p2, size_t len2, int ret) {
     memset(p, 0, len);
     memset(p2, 0, len2);
+    return ret;
 }
 
 int encode(char *output, const char *hrp, const uint8_t *data, size_t data_len, size_t max_input_len) {
@@ -151,36 +152,40 @@ int convert_bits(uint8_t *out, size_t *outlen, int outbits, const uint8_t *in, s
 int addr_encode(char *output, size_t *output_len, const char *hrp, int witver, const uint8_t *witprog, size_t witprog_len) {
     uint8_t data[MAXLEN];
     size_t datalen = 0;
-    if (witver > 16) goto fail;
-    if (witver == 0 && witprog_len != 53 && witprog_len != 65) goto fail;
-    if (witprog_len < 2 || witprog_len > 65) goto fail;
+    if (witver > 16)
+        return clear(data, sizeof(data), NULL, 0, 0);
+    if (witver == 0 && witprog_len != 53 && witprog_len != 65)
+        return clear(data, sizeof(data), NULL, 0, 0);
+    if (witprog_len < 2 || witprog_len > 65)
+        return clear(data, sizeof(data), NULL, 0, 0);
     data[0] = witver;
     convert_bits(data + 1, &datalen, 5, witprog, witprog_len, 8, 1);
     ++datalen;
     int ret = encode(output, hrp, data, datalen, MAXLEN);
     size_t len = strlen(output);
     memcpy(output_len, &len, 4);
-    return ret;
-fail:
-    clear_2(data, sizeof(data), (void *)witprog, witprog_len);
-    return 0;
+    return clear(data, sizeof(data), NULL, 0, 1);
 }
 
 int addr_decode(int *witver, uint8_t *witdata, size_t *witdata_len, const char *hrp, const char *addr) {
     uint8_t data[MAXLEN];
     char hrp_actual[MAXLEN];
     size_t data_len;
-    if (!decode(hrp_actual, data, &data_len, addr, MAXLEN)) goto fail;
-    if (data_len == 0 || data_len > (MAXLEN - 4)) goto fail;
-    if (strncmp(hrp, hrp_actual, MAXLEN - 5) != 0) goto fail;
-    if (data[0] > 16) goto fail;
+    if (!decode(hrp_actual, data, &data_len, addr, MAXLEN))
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
+    if (data_len == 0 || data_len > (MAXLEN - 4))
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
+    if (strncmp(hrp, hrp_actual, MAXLEN - 5) != 0)
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
+    if (data[0] > 16)
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
     *witdata_len = 0;
-    if (!convert_bits(witdata, witdata_len, 8, data + 1, data_len - 1, 5, 0)) goto fail;
-    if (*witdata_len < 2 || *witdata_len > 65) goto fail;
-    if (data[0] == 0 && *witdata_len != 53 && *witdata_len != 65) goto fail;
+    if (!convert_bits(witdata, witdata_len, 8, data + 1, data_len - 1, 5, 0))
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
+    if (*witdata_len < 2 || *witdata_len > 65)
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
+    if (data[0] == 0 && *witdata_len != 53 && *witdata_len != 65)
+        return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 0);
     *witver = data[0];
-    return 1;
-fail:
-    clear_2(data, sizeof(data), hrp_actual, sizeof(hrp_actual));
-    return 0;
+    return clear(data, sizeof(data), hrp_actual, sizeof(hrp_actual), 1);
 }

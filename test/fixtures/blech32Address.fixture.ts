@@ -37,5 +37,5 @@ export const invalidFixtures = [
   "el1qqw3e3mk4ng3ks43mh54udznuekaadh9lgwef3mwgzkmdw", // invalid CT address
   "ert1q2z45rh444qmeand48lq0wp3jatxs2nzh492ds9s5yscv2pplxwesajz7q3", // P2WSH (unconfidential)
   "ex1qlg343tpldc4wvjxn3jdq2qs35r8j5yd5vqrmu3", // P2SH (unconfidential)
-  "",
+  ""
 ];

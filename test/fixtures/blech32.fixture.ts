@@ -5,7 +5,7 @@ export const validBlech32 = [
   "abcdef1qpzry9x8gf2tvdw0s3jn54khce6mua7lgmcn7l7t7xve",
   "11qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq3xldwlutcw2l",
   "split1checkupstagehandshakeupstreamerranterredcaperredegneyqml9esp",
-  "?19dv34t3p4s35",
+  "?19dv34t3p4s35"
 ];
 
 export const invalidBlech32 = [
@@ -22,7 +22,7 @@ export const invalidBlech32 = [
   "10a06t8",
   "1qzzfhee",
   "a12UEL5L",
-  "A12uEL5L",
+  "A12uEL5L"
 ];
 
 export const validBlech32m = [
@@ -50,4 +50,4 @@ export const invalidBlech32m = [
   "M1VUXWEZ",
   "16plkw9",
   "1p2gdwpf"
-]
+];

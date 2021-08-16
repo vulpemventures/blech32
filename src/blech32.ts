@@ -75,6 +75,8 @@ function verifyChecksum(
   return polymod(hrpAndData).equals(getEncodingConst(enc));
 }
 
+const zeros = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
 function createChecksum(
   hrp: string,
   data: Uint8Array,
@@ -82,7 +84,7 @@ function createChecksum(
 ): number[] {
   const values = Array.from(hrpExpand(hrp))
     .concat(Array.from(data))
-    .concat([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+    .concat(zeros); // concat 12 zero
 
   const mod = polymod(values).xor(getEncodingConst(enc));
 

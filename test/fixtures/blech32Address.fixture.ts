@@ -33,11 +33,17 @@ export const validFixtures = [
   }
 ];
 
-export const invalidParseFixtures = [
+export const invalidFixtures = [
   {
-    address: "el1qqw3e3mk4ng3ks43mh54udznuekaadh9lgwef3mwgzrfzakmdw" // invalid CT address
+    address: "el1qqw3e3mk4ng3ks43mh54udznuekaadh9lgwef3mwgzkmdw" // invalid CT address
   },
   {
-    address: ""
+    address: "ert1q2z45rh444qmeand48lq0wp3jatxs2nzh492ds9s5yscv2pplxwesajz7q3" // P2WSH (unconfidential)
+  },
+  {
+    address: "ex1qlg343tpldc4wvjxn3jdq2qs35r8j5yd5vqrmu3" // P2SH (unconfidential)
+  },
+  {
+    address: "" // empty string
   }
 ];

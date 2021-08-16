@@ -32,9 +32,6 @@
     "size": "size-limit",
     "analyze": "size-limit --why"
   },
-  "browser": {
-    "./src/blech32.js": "./src/blech32.web.js"
-  },
   "author": "Vulpem Ventures",
   "license": "MIT",
   "devDependencies": {

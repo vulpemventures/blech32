@@ -1,6 +1,6 @@
 {
   "name": "blech32",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Blech32 encoding / decoding",
   "files": [
     "dist"

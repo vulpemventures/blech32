@@ -63,3 +63,9 @@ export function convertBits(
 
   return regrouped;
 }
+
+export function validateWitnessVersion(version: number): void {
+  if (version < 0 || version > 16) {
+    throw new Error("invalid witness version");
+  }
+}

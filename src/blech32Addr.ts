@@ -1,5 +1,6 @@
-import { BLECH32, decode, encode, MAX_LEN } from "./blech32";
-import { convertBits } from "./utils";
+import { EncodingType } from ".";
+import { decode, encode, MAX_LEN, getEncodingType } from "./blech32";
+import { convertBits, validateWitnessVersion } from "./utils";
 
 interface Blech32AddressData {
   witness: string;
@@ -20,20 +21,15 @@ function encodeAddress({
   blindingPublicKey,
   hrp
 }: Blech32AddressData): string {
+  validateWitnessVersion(witnessVersion);
+
   const witnessProgram = Buffer.concat([
     Buffer.from(blindingPublicKey, "hex"),
     Buffer.from(witness, "hex")
   ]);
-
-  if (witnessVersion > 16)
-    throw new Error("witness version cannot be greater than 16");
   const witnessProgLength = witnessProgram.length;
 
-  if (
-    witnessVersion === 0 &&
-    witnessProgLength !== 53 &&
-    witnessProgLength !== 65
-  )
+  if (witnessProgLength !== 53 && witnessProgLength !== 65)
     throw new Error(
       "witness version 0 needs witness program length = 53 OR = 65"
     );
@@ -45,20 +41,22 @@ function encodeAddress({
     witnessVersion,
     ...convertBits(Array.from(witnessProgram), 8, 5, true)
   ];
-  return encode(hrp, Uint8Array.from(data), BLECH32);
+  return encode(hrp, Uint8Array.from(data), getEncodingType(data[0]));
 }
 
 /**
  * decodeAddress decodes a segwit string address.
  * @param addr the blech32 encoded string.
+ * @param encodingType the encoding type.
  */
-function decodeAddress(addr: string): Blech32AddressData {
-  const { hrp, data } = decode(addr, BLECH32);
+function decodeAddress(addr: string, enc: EncodingType): Blech32AddressData {
+  const { hrp, data } = decode(addr, enc);
+
+  const witnessVersion = data[0];
+  validateWitnessVersion(witnessVersion);
 
   if (data.length === 0 || data.length > MAX_LEN)
     throw new Error("Invalid data length");
-
-  if (data[0] > 16) throw new Error("Invalid witness version");
 
   const witnessProgram = convertBits(Array.from(data.slice(1)), 5, 8, false);
   if (witnessProgram.length < 2 || witnessProgram.length > 65)
@@ -71,7 +69,6 @@ function decodeAddress(addr: string): Blech32AddressData {
   )
     throw new Error("Invalid witness data length for witness version 0");
 
-  const witnessVersion = data[0];
   const blindingPublicKey = Buffer.from(witnessProgram.slice(0, 33)).toString(
     "hex"
   );
@@ -104,8 +101,8 @@ export class Blech32Address {
   static from(
     witness: string,
     blindingPublicKey: string,
-    hrp: string = "lq",
-    witnessVersion: number = 0
+    hrp: string,
+    witnessVersion: number
   ) {
     return new Blech32Address({
       witness,
@@ -115,7 +112,10 @@ export class Blech32Address {
     });
   }
 
-  static fromString(blechString: string): Blech32Address {
-    return new Blech32Address(decodeAddress(blechString));
+  static fromString(
+    blechString: string,
+    encodingType: EncodingType
+  ): Blech32Address {
+    return new Blech32Address(decodeAddress(blechString, encodingType));
   }
 }

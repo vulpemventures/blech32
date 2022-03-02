@@ -1,4 +1,5 @@
 import Long from "long";
+import { validateWitnessVersion } from "./utils";
 
 const CHARSET = "qpzry9x8gf2tvdw0s3jn54khce6mua7l";
 export const MAX_LEN = 1000;
@@ -18,6 +19,19 @@ const GENERATORS = [
 export type EncodingType = "blech32" | "blech32m";
 export const BLECH32: EncodingType = "blech32";
 export const BLECH32M: EncodingType = "blech32m";
+
+export function getEncodingType(witnessVersion: number): EncodingType {
+  validateWitnessVersion(witnessVersion);
+  if (witnessVersion === 0) {
+    return BLECH32;
+  } else if (witnessVersion === 1) {
+    return BLECH32M;
+  } else {
+    throw new Error(
+      `Unsuported witness version (${witnessVersion}), only 0 (blech32) or 1 (blech32m) are supported`
+    );
+  }
+}
 
 function getEncodingConst(enc: EncodingType): Long.Long {
   if (enc === BLECH32) {
@@ -151,7 +165,7 @@ export function decode(
   }
 
   if (!verifyChecksum(hrp, data, enc)) {
-    throw new Error("invalid blech32 checksum");
+    throw new Error(`invalid ${enc} checksum`);
   }
 
   return { hrp: hrp, data: Uint8Array.from(data.slice(0, data.length - 12)) };

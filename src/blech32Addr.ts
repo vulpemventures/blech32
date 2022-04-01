@@ -29,7 +29,11 @@ function encodeAddress({
   ]);
   const witnessProgLength = witnessProgram.length;
 
-  if (witnessProgLength !== 53 && witnessProgLength !== 65)
+  if (
+    witnessVersion === 0 &&
+    witnessProgLength !== 53 &&
+    witnessProgLength !== 65
+  )
     throw new Error(
       "witness version 0 needs witness program length = 53 OR = 65"
     );

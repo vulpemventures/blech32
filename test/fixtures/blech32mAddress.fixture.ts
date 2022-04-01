@@ -6,6 +6,14 @@ export const validFixtures = [
     blindingPublicKey:
       "02bb66710acfd4346bebd772eb9462279a8fa4bd93763b5a7373bf1938c84dae53",
     prefix: "tex"
+  },
+  {
+    address:
+      "tex1pq2akvug2el2rg6lt6aewh9rzy7dglf9ajdmrkknnwwl3jwxgfkh984q4gcw7w66d6rlf7d",
+    witness: "d415468",
+    blindingPublicKey:
+      "02bb66710acfd4346bebd772eb9462279a8fa4bd93763b5a7373bf1938c84dae53",
+    prefix: "tex"
   }
 ];
 

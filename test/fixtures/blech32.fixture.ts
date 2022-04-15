@@ -26,13 +26,13 @@ export const invalidBlech32 = [
 ];
 
 export const validBlech32m = [
-  "A133NZFWVCXJEF",
-  "a133nzfwvcxjef",
-  "an83characterlonghumanreadablepartthatcontainsthetheexcludedcharactersbioandnumber11vg8ylhta2dy0",
-  "abcdef1l7aum6echk45nj3s0wdvt2fg8x9yrzpqqjhrygyn0ncn",
-  "11llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll8sz3j03mua7w",
-  "split1checkupstagehandshakeupstreamerranterredcaperredegneyqwr444r",
-  "?19dv34tya9u5k"
+  "A1EYL4VXQ3HRPT",
+  "a1eyl4vxq3hrpt",
+  "an83characterlonghumanreadablepartthatcontainsthetheexcludedcharactersbioandnumber11yatn6l85muud",
+  "abcdef1l7aum6echk45nj3s0wdvt2fg8x9yrzpqg8m5pqg67zq3",
+  "11llllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllllll09wxh8ajdvxv",
+  "split1checkupstagehandshakeupstreamerranterredcaperred3alwpgz2yydp",
+  "?1dcqxsrg55dv5"
 ];
 
 export const invalidBlech32m = [

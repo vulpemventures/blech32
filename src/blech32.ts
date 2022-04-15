@@ -37,7 +37,7 @@ function getEncodingConst(enc: EncodingType): Long.Long {
   if (enc === BLECH32) {
     return Long.fromNumber(1);
   } else if (enc === BLECH32M) {
-    return hexToLong("2bc830a3");
+    return hexToLong("455972a3350f7a1");
   } else {
     throw new Error("Invalid encoding type");
   }
@@ -165,7 +165,7 @@ export function decode(
   }
 
   if (!verifyChecksum(hrp, data, enc)) {
-    throw new Error(`invalid ${enc} checksum`);
+    throw new Error(`invalid ${enc} checksum "${blechString}"`);
   }
 
   return { hrp: hrp, data: Uint8Array.from(data.slice(0, data.length - 12)) };

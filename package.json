@@ -49,5 +49,8 @@
   },
   "dependencies": {
     "long": "^4.0.0"
+  },
+  "resolutions": {
+    "json-schema": "^0.4.0"
   }
 }
